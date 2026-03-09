@@ -1,87 +1,45 @@
-# 🛍️ Ecommerce Platform
+# Ecommerce Backend API
 
-A full-stack e-commerce application with a responsive HTML/CSS frontend and a robust Flask backend featuring authentication, product management, shopping cart, order processing, and Stripe payment integration.
+A complete Flask-based backend for ecommerce applications with MongoDB, JWT authentication, and Stripe payment integration.
 
-## ✨ Features
+## Features
 
-### Frontend
-- 📱 Responsive web design
-- 🏠 Home page with navigation
-- 🛍️ Product listings and details
-- 📦 Contact page
-- 🎨 Modern CSS styling
+- **User Authentication**: Register, login, and JWT token verification
+- **Product Management**: Full CRUD operations for products
+- **Shopping Cart**: Add/remove items, manage cart
+- **Order Processing**: Create orders, track order status
+- **Payment Integration**: Stripe payment intent creation and confirmation
+- **Database**: MongoDB for flexible document storage
 
-### Backend
-- 👤 **User Authentication** - Register, login, JWT token verification
-- 📦 **Product Management** - Full CRUD operations, product catalog
-- 🛒 **Shopping Cart** - Add/remove items, cart management
-- 📋 **Order Processing** - Create orders, track status
-- 💳 **Payment Integration** - Stripe payment system
-- 🔐 **Security** - JWT authentication, bcrypt password hashing
-- 🗄️ **Database** - MongoDB for flexible document storage
-
-## 🛠️ Tech Stack
-
-### Frontend
-- HTML5
-- CSS3
-
-### Backend
-- **Framework**: Flask 2.3.0
-- **Database**: MongoDB
-- **Authentication**: JWT (Flask-JWT-Extended)
-- **Password Hashing**: Bcrypt
-- **Payments**: Stripe API
-- **CORS**: Flask-CORS
-- **Environment**: Python-Dotenv
-
-## 📂 Project Structure
+## Project Structure
 
 ```
-Ecommerce/
-├── index.html             # Home page
-├── products.html          # Products page
-├── contact.html           # Contact page
-├── home.html              # Additional home page
-├── style.css              # Stylesheet
-│
-└── backend/
-    ├── app.py             # Main Flask application
-    ├── database.py        # MongoDB configuration
-    ├── models.py          # Data models
-    ├── requirements.txt   # Python dependencies
-    ├── README.md          # Backend documentation
-    │
-    └── routes/
-        ├── auth.py        # Authentication endpoints
-        ├── products.py    # Product management
-        ├── cart.py        # Shopping cart
-        ├── orders.py      # Order processing
-        └── payments.py    # Payment processing
+backend/
+├── app.py                 # Main Flask application
+├── database.py            # MongoDB configuration
+├── models.py              # Database models (User, Product, Cart, Order)
+├── requirements.txt       # Python dependencies
+├── .env.example           # Environment variables template
+├── routes/
+│   ├── auth.py           # Authentication endpoints
+│   ├── products.py       # Product management endpoints
+│   ├── cart.py           # Shopping cart endpoints
+│   ├── orders.py         # Order processing endpoints
+│   └── payments.py       # Payment processing endpoints
+└── README.md             # This file
 ```
 
-## 🚀 Getting Started
+## Installation
 
-### Prerequisites
-- Python 3.8+
-- MongoDB
-- Node.js (optional, for frontend tooling)
-- Stripe account for payment testing
-
-### Backend Installation
-
-1. **Navigate to backend directory**
+1. **Clone/Navigate to the project**
    ```bash
    cd backend
    ```
 
-2. **Create a virtual environment**
+2. **Create a virtual environment** (optional but recommended)
    ```bash
    python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
@@ -89,96 +47,128 @@ Ecommerce/
    pip install -r requirements.txt
    ```
 
-4. **Create .env file** with your configuration
+4. **Create .env file**
    ```bash
-   # Add the following variables:
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET_KEY=your_secret_key
-   STRIPE_SECRET_KEY=your_stripe_secret_key
-   FLASK_ENV=development
+   cp .env.example .env
+   ```
+   Edit `.env` with your configuration:
+   - Set a secure `JWT_SECRET_KEY`
+   - Configure `MONGO_URI` (local MongoDB or Atlas)
+   - Add your Stripe credentials
+
+5. **Start MongoDB**
+   ```bash
+   # If using local MongoDB
+   mongod
    ```
 
-5. **Run the backend server**
+6. **Run the application**
    ```bash
    python app.py
    ```
-   The server will start at `http://localhost:5000`
 
-### Frontend Setup
+The API will be available at `http://localhost:5000`
 
-1. Open `index.html` in your browser or serve using a local server:
-   ```bash
-   # Using Python:
-   python -m http.server 8000
-   
-   # Or use any other local server
-   ```
+## API Endpoints
 
-2. Access the frontend at `http://localhost:8000`
+### Authentication
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/verify` - Verify JWT token
 
-## 📚 API Endpoints
+### Products
+- `GET /api/products` - Get all products
+- `GET /api/products/<product_id>` - Get specific product
+- `POST /api/products` - Create product (requires auth)
+- `PUT /api/products/<product_id>` - Update product (requires auth)
+- `DELETE /api/products/<product_id>` - Delete product (requires auth)
 
-### Authentication (`/api/auth`)
-- `POST /register` - Register new user
-- `POST /login` - Login user
-- `GET /verify` - Verify JWT token
+### Shopping Cart
+- `GET /api/cart` - Get user's cart (requires auth)
+- `POST /api/cart/add` - Add item to cart (requires auth)
+- `DELETE /api/cart/remove/<product_id>` - Remove item (requires auth)
+- `DELETE /api/cart/clear` - Clear entire cart (requires auth)
 
-### Products (`/api/products`)
-- `GET /` - Get all products
-- `GET /<id>` - Get product by ID
-- `POST /` - Create product (admin)
-- `PUT /<id>` - Update product (admin)
-- `DELETE /<id>` - Delete product (admin)
+### Orders
+- `GET /api/orders` - Get user's orders (requires auth)
+- `GET /api/orders/<order_id>` - Get specific order (requires auth)
+- `POST /api/orders` - Create order (requires auth)
+- `PUT /api/orders/<order_id>/status` - Update order status (requires auth)
 
-### Cart (`/api/cart`)
-- `GET /` - Get user cart
-- `POST /add` - Add item to cart
-- `DELETE /remove` - Remove item from cart
-- `PUT /update` - Update cart item quantity
+### Payments
+- `POST /api/payments/create-payment-intent` - Create Stripe payment intent (requires auth)
+- `POST /api/payments/confirm-payment` - Confirm payment (requires auth)
+- `GET /api/payments/payment-status/<order_id>` - Get payment status (requires auth)
 
-### Orders (`/api/orders`)
-- `GET /` - Get user orders
-- `POST /` - Create new order
-- `GET /<id>` - Get order details
-- `PUT /<id>` - Update order status
+## Authentication
 
-### Payments (`/api/payments`)
-- `POST /intent` - Create payment intent
-- `POST /confirm` - Confirm payment
-
-## 🔑 Environment Variables
-
-Create a `.env` file in the backend directory:
+The API uses JWT (JSON Web Tokens) for authentication. After login, include the token in the Authorization header:
 
 ```
-MONGODB_URI=mongodb://localhost:27017/ecommerce
-JWT_SECRET_KEY=your_jwt_secret_key_here
-STRIPE_SECRET_KEY=sk_test_your_stripe_key
-STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key
-FLASK_ENV=development
-FLASK_DEBUG=1
+Authorization: Bearer <your_jwt_token>
 ```
 
-## 🧪 Testing
+## Example Usage
 
-### Test the Backend API
+### Register User
 ```bash
-# Using curl or Postman:
-curl http://localhost:5000/api/products
-
-
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"password123","name":"John Doe"}'
 ```
 
-## 📝 License
+### Login
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"password123"}'
+```
 
-This project is open source and available under the MIT License.
+### Get Products
+```bash
+curl http://localhost:5000/api/products
+```
 
-## 🤝 Contributing
+### Create Product
+```bash
+curl -X POST http://localhost:5000/api/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"name":"Laptop","description":"High-end laptop","price":999.99,"stock":10,"category":"Electronics"}'
+```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Add to Cart
+```bash
+curl -X POST http://localhost:5000/api/cart/add \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"product_id":"<product_id>","quantity":2}'
+```
 
-## 📧 Support
+## Environment Variables
 
-For support, please open an issue on GitHub or contact the project maintainers.
+Create a `.env` file with:
+- `JWT_SECRET_KEY` - Secret key for JWT encoding (change in production!)
+- `MONGO_URI` - MongoDB connection string
+- `STRIPE_SECRET_KEY` - Stripe secret key
+- `STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
+- `FLASK_ENV` - Development or production
+- `FLASK_DEBUG` - Enable debug mode
 
----
+## Dependencies
+
+- Flask 2.3.0
+- Flask-CORS 4.0.0
+- Flask-JWT-Extended 4.4.4
+- Flask-Bcrypt 1.0.1
+- PyMongo 4.3.3
+- python-dotenv 1.0.0
+- Stripe 5.4.0
+
+## Notes
+
+- All passwords are hashed using bcrypt
+- Dates and times are stored in UTC
+- MongoDB ObjectIds are converted to strings in API responses
+- CORS is enabled for frontend integration
+- Update `.env` with real values before production deployment

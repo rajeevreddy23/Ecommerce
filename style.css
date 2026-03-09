@@ -1,0 +1,42 @@
+/* Basic Reset & Theme */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; color: #222; background: #f8f8fb; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* Navbar */
+.nav { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 20px; background: #111; color: #fff; }
+.nav .logo { font-weight: 700; letter-spacing: .4px; }
+.nav .links a { color: #fff; opacity: .9; margin-left: 12px; padding: 6px 8px; border-radius: 6px; }
+.nav .links a:hover { opacity: 1; background: rgba(255,255,255,.1); }
+.nav .links .active { border-bottom: 2px solid #fff; }
+
+/* Layout helpers */
+.container { max-width: 1100px; margin: 22px auto; padding: 0 16px; }
+.footer { margin-top: 32px; padding: 16px; text-align: center; color: #666; }
+
+/* Hero (index) */
+.hero { display: grid; place-items: center; min-height: 50vh; background: #f0f2ff; border: 1px solid #e6e9ff; border-radius: 12px; padding: 24px; text-align: center; }
+.btn { display: inline-block; background: #6c5ce7; color: #fff; padding: 10px 16px; border-radius: 8px; border: 1px solid #6c5ce7; transition: filter .15s; }
+.btn:hover { filter: brightness(.95); }
+
+/* Cards & Grids */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+.card { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px; text-align: center; }
+
+.product { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+.product img { height: 160px; width: 100%; object-fit: cover; }
+.product .p { padding: 10px 12px; }
+.price { color: #2ecc71; font-weight: 700; }
+
+/* Forms */
+.form { display: grid; gap: 12px; max-width: 520px; }
+.form label { display: grid; gap: 6px; font-size: 14px; color: #444; }
+.form input, .form textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font: inherit; }
+.form button { width: fit-content; }
+
+/* Page-specific optional tweaks */
+.page-home .tagline { color: #6c5ce7; }
