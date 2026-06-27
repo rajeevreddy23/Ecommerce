@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Ecommerce — Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-contact">
+  <nav class="nav">
+    <a class="logo" href="index.html">Ecommerce</a>
+    <div class="links">
+      <a href="index.html">Index</a>
+      <a href="home.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>Contact Us</h1>
+    <form class="form" onsubmit="event.preventDefault(); alert('Message sent!');">
+      <label>
+        Name
+        <input type="text" required />
+      </label>
+      <label>
+        Email
+        <input type="email" required />
+      </label>
+      <label>
+        Message
+        <textarea rows="5" required></textarea>
+      </label>
+      <button class="btn" type="submit">Send</button>
+    </form>
+  </main>
+
+  <footer class="footer">© 2026 Ecommerce</footer>
+</body>
+</html>
